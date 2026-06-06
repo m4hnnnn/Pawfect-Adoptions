@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Pawfect Adoptions 🐾</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--pk50:#fff0f5;--pk100:#ffd6e7;--pk200:#ffafd0;--pk300:#f48fb1;--pk400:#e06d98;--pk500:#c9507c;--gn50:#f0f7ee;--gn100:#dcedc8;--gn200:#c5e1a5;--gn300:#a5c882;--gn400:#7da85a;--gn500:#5a8a3a;--sage:#8fac78;--cream:#fdf8f5;--cream2:#f5ede6;--td:#3a2e35;--tm:#6b5260;--tl:#a0889a;--fd:'Cormorant Garamond',Georgia,serif;--fb:'DM Sans',sans-serif;--shadow:0 4px 24px rgba(180,100,140,0.1);--card:0 8px 32px rgba(140,80,110,0.12);--r1:12px;--r2:20px;--r3:32px;--r4:48px;--tr:0.3s cubic-bezier(0.4,0,0.2,1)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--fb);background:var(--cream);color:var(--td);min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--pk50)}::-webkit-scrollbar-thumb{background:var(--pk300);border-radius:10px}
+.btn-p{background:linear-gradient(135deg,var(--pk300),var(--pk400));color:#fff;border:none;padding:12px 28px;border-radius:var(--r4);font-family:var(--fb);font-size:14px;font-weight:500;letter-spacing:.04em;cursor:pointer;transition:var(--tr);box-shadow:0 4px 16px rgba(200,80,120,.25)}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(200,80,120,.35)}
+.btn-s{background:transparent;color:var(--pk400);border:1.5px solid var(--pk300);padding:11px 28px;border-radius:var(--r4);font-family:var(--fb);font-size:14px;font-weight:500;cursor:pointer;transition:var(--tr)}
+.btn-s:hover{background:var(--pk50);transform:translateY(-2px)}
+.btn-g{background:linear-gradient(135deg,var(--sage),var(--gn400));color:#fff;border:none;padding:12px 28px;border-radius:var(--r4);font-family:var(--fb);font-size:14px;font-weight:500;cursor:pointer;transition:var(--tr);box-shadow:0 4px 16px rgba(90,138,58,.25)}
+.btn-g:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(90,138,58,.35)}
+input,textarea,select{font-family:var(--fb);font-size:14px;color:var(--td);background:#fff;border:1.5px solid var(--pk100);border-radius:var(--r1);padding:12px 16px;width:100%;outline:none;transition:var(--tr)}
+input:focus,textarea:focus,select:focus{border-color:var(--pk300);box-shadow:0 0 0 3px rgba(244,143,177,.15)}
+label{font-size:13px;font-weight:500;color:var(--tm);display:block;margin-bottom:6px;letter-spacing:.03em}
+.page{display:none;animation:fadeIn .45s ease forwards}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;height:72px;display:flex;align-items:center;justify-content:space-between;transition:all .4s}
+nav.scrolled{background:rgba(253,248,245,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(244,143,177,.15)}
+.nav-logo{text-decoration:none;display:flex;align-items:center;gap:8px;cursor:pointer}
+.nav-logo span.name{font-family:var(--fd);font-size:22px;font-weight:500;color:var(--pk500)}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-link{font-size:14px;font-weight:400;color:var(--tm);cursor:pointer;transition:color .2s;position:relative;background:none;border:none;font-family:var(--fb);padding:0}
+.nav-link:hover,.nav-link.active{color:var(--pk500)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.hamburger{background:none;border:1.5px solid var(--pk200);border-radius:10px;padding:8px;cursor:pointer;color:var(--pk400);display:flex;align-items:center;transition:all .2s;font-size:20px;line-height:1}
+.hamburger:hover,.hamburger.open{background:var(--pk50)}
+.overlay{position:fixed;inset:0;background:rgba(58,46,53,.3);z-index:150;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px)}
+.overlay.show{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;width:min(380px,90vw);height:100vh;background:var(--cream);z-index:200;transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);padding:32px;display:flex;flex-direction:column;overflow-y:auto;border-left:1px solid var(--pk100)}
+.drawer.open{transform:translateX(0)}
+.drawer-blob1{position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:var(--pk100);opacity:.4;z-index:-1;pointer-events:none}
+.drawer-blob2{position:absolute;bottom:80px;left:-60px;width:180px;height:180px;border-radius:50%;background:var(--gn100);opacity:.4;z-index:-1;pointer-events:none}
+.drawer-item{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:var(--r1);cursor:pointer;border:1px solid transparent;transition:all .2s;text-decoration:none}
+.drawer-item:hover{background:#fff;border-color:var(--pk100)}
+.section-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--tl);margin-bottom:8px;margin-top:4px}
+.tag{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:500;letter-spacing:.02em}
+.pill-filter{padding:9px 20px;border-radius:40px;border:1.5px solid var(--pk100);background:#fff;color:var(--tm);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;font-family:var(--fb)}
+.pill-filter.active{border-color:var(--pk300);background:var(--pk300);color:#fff}
+.cat-card{background:#fff;border-radius:var(--r3);overflow:hidden;border:1px solid var(--pk100);transition:all .35s cubic-bezier(.4,0,.2,1);cursor:pointer}
+.cat-card:hover{transform:translateY(-6px);box-shadow:var(--card)}
+.card-img{height:200px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.status-badge{position:absolute;top:14px;left:14px;font-size:11px;font-weight:500;padding:4px 10px;border-radius:20px;letter-spacing:.04em}
+.fav-btn{position:absolute;top:12px;right:12px;background:#fff;border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:all .2s;font-size:16px}
+.fav-btn:hover{transform:scale(1.1)}
+.grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
+.grid-4{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--pk100);border-radius:40px;padding:8px 20px;margin-bottom:32px;font-size:13px;color:var(--tm);box-shadow:0 2px 12px rgba(200,80,120,.08)}
+.stat{text-align:center}
+.value-card{background:#fff;border-radius:var(--r3);padding:28px;border:1px solid var(--pk100);box-shadow:var(--shadow)}
+.contact-info-box{display:flex;gap:16px;margin-bottom:24px}
+.contact-icon{width:48px;height:48px;border-radius:var(--r1);background:var(--pk50);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:1px solid var(--pk100)}
+.auth-card{background:#fff;border-radius:var(--r4);padding:48px;width:100%;max-width:440px;box-shadow:var(--card);position:relative;overflow:hidden}
+.error-box{background:#fff0f3;border:1px solid #ffb3c1;border-radius:var(--r1);padding:12px 16px;font-size:13px;color:#c9507c}
+.success-box{background:var(--gn50);border:1px solid var(--gn200);border-radius:var(--r1);padding:12px 16px;font-size:13px;color:var(--gn500)}
+footer{background:#fff;border-top:1px solid var(--pk100);padding:48px 32px 32px}
+.footer-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:40px}
+.footer-link{display:block;font-size:14px;color:var(--tm);text-decoration:none;margin-bottom:10px;background:none;border:none;cursor:pointer;font-family:var(--fb);text-align:left;padding:0}
+.footer-link:hover{color:var(--pk400)}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="nav-logo" onclick="navigate('home')">
+    <span style="font-size:28px">🐾</span>
+    <span class="name">Pawfect</span>
+  </div>
+  <div class="nav-links">
+    <button class="nav-link" onclick="navigate('adopt')">Adopt</button>
+    <button class="nav-link" id="fav-nav-link" onclick="navigate('favorites')" style="display:none">Favorites</button>
+  </div>
+  <div class="nav-right">
+    <div id="auth-nav"></div>
+    <button class="hamburger" id="hamburger-btn" onclick="toggleDrawer()" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<div class="overlay" id="overlay" onclick="toggleDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-blob1"></div>
+  <div class="drawer-blob2"></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:48px">
+    <span style="font-family:var(--fd);font-size:20px;color:var(--pk500);font-style:italic">explore</span>
+    <button onclick="toggleDrawer()" style="background:none;border:none;cursor:pointer;color:var(--tl);font-size:22px;line-height:1">✕</button>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:4px;flex:1">
+    <p class="section-label">Pages</p>
+    <div class="drawer-item" onclick="navigate('about');toggleDrawer()">
+      <span style="font-size:20px;width:32px;text-align:center">🌸</span>
+      <div><div style="font-size:15px;font-weight:500;color:var(--td)">About Us</div><div style="font-size:12px;color:var(--tl)">Our story & mission</div></div>
+    </div>
+    <div class="drawer-item" onclick="navigate('contact');toggleDrawer()">
+      <span style="font-size:20px;width:32px;text-align:center">💌</span>
+      <div><div style="font-size:15px;font-weight:500;color:var(--td)">Contact Us</div><div style="font-size:12px;color:var(--tl)">Get in touch</div></div>
+    </div>
+    <div class="drawer-item" onclick="navigate('adopt');toggleDrawer()">
+      <span style="font-size:20px;width:32px;text-align:center">🐱</span>
+      <div><div style="font-size:15px;font-weight:500;color:var(--td)">Meet the Cats</div><div style="font-size:12px;color:var(--tl)">Browse all kitties</div></div>
+    </div>
+    <div class="drawer-item" id="drawer-fav" onclick="navigate('favorites');toggleDrawer()" style="display:none">
+      <span style="font-size:20px;width:32px;text-align:center">💗</span>
+      <div><div style="font-size:15px;font-weight:500;color:var(--td)">My Favorites</div><div style="font-size:12px;color:var(--tl)">Cats you've loved</div></div>
+    </div>
+    <div style="height:1px;background:var(--pk100);margin:20px 0"></div>
+    <p class="section-label">Account</p>
+    <div id="drawer-auth"></div>
+  </div>
+  <div style="margin-top:auto;padding-top:32px;text-align:center">
+    <p style="font-size:12px;color:var(--tl);line-height:1.6">Every cat deserves a forever home 🐾<br><span style="color:var(--pk400)">Chicago, IL</span></p>
+  </div>
+</div>
+
+<div id="app"></div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+        <span style="font-size:24px">🐾</span>
+        <span style="font-family:var(--fd);font-size:20px;font-weight:500;color:var(--pk500)">Pawfect</span>
+      </div>
+      <p style="font-size:13px;color:var(--tl);line-height:1.7">Connecting cats with loving families in Chicago since 2016.</p>
+    </div>
+    <div>
+      <p style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--tl);margin-bottom:16px">Explore</p>
+      <button class="footer-link" onclick="navigate('adopt')">Adopt</button>
+      <button class="footer-link" onclick="navigate('about')">About Us</button>
+      <button class="footer-link" onclick="navigate('contact')">Contact</button>
+    </div>
+    <div>
+      <p style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--tl);margin-bottom:16px">Account</p>
+      <button class="footer-link" onclick="navigate('login')">Sign In</button>
+      <button class="footer-link" onclick="navigate('signup')">Create Account</button>
+      <button class="footer-link" onclick="navigate('favorites')">My Favorites</button>
+    </div>
+    <div>
+      <p style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--tl);margin-bottom:16px">Visit</p>
+      <p style="font-size:13px;color:var(--tm);line-height:1.7">420 N. Magnolia Ave<br>Chicago, IL 60622<br>Tue–Sun · 11am–6pm</p>
+    </div>
+  </div>
+  <div style="max-width:1200px;margin:32px auto 0;padding-top:24px;border-top:1px solid var(--pk50);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+    <p style="font-size:12px;color:var(--tl)">© 2025 Pawfect Adoptions. Made with 🌸 in Chicago.</p>
+    <p style="font-size:12px;color:var(--tl)">Every cat deserves a forever home.</p>
+  </div>
+</footer>
+
+<script>
+const CATS=[
+  {id:1,name:'Rosie',age:'2 years',breed:'Domestic Shorthair',gender:'Female',personality:['Cuddly','Playful','Gentle'],description:"Rosie is a dreamy little soul who loves sunny windowsills and slow mornings. She'll curl up on your lap within minutes of meeting you.",color:'Calico',emoji:'🌸',bg:'#ffd6e7',accent:'#f48fb1',status:'Available',size:'Small'},
+  {id:2,name:'Sage',age:'3 years',breed:'Maine Coon Mix',gender:'Male',personality:['Independent','Majestic','Curious'],description:'Sage is a wise and gentle giant who surveys his kingdom with serene confidence. He adores forehead scritches and soft blankets.',color:'Green-gray tabby',emoji:'🌿',bg:'#dcedc8',accent:'#8fac78',status:'Available',size:'Large'},
+  {id:3,name:'Blossom',age:'1 year',breed:'Ragdoll',gender:'Female',personality:['Sweet','Mellow','Affectionate'],description:"Blossom goes completely limp in your arms like the ragdoll she is. A first-time cat owner's dream — endlessly patient and soft.",color:'Cream & lilac point',emoji:'🌷',bg:'#fff0f5',accent:'#e06d98',status:'Available',size:'Medium'},
+  {id:4,name:'Fern',age:'5 years',breed:'Russian Blue',gender:'Female',personality:['Quiet','Loyal','Observant'],description:"Fern is selective with her love, but once you've earned her trust, she's yours forever. She's looking for a calm home.",color:'Blue-gray',emoji:'🍃',bg:'#e1f5e8',accent:'#5a8a3a',status:'Available',size:'Medium'},
+  {id:5,name:'Peony',age:'8 months',breed:'Persian Mix',gender:'Female',personality:['Fluffy','Dramatic','Lovable'],description:"Peony is a tiny drama queen who demands attention on her schedule. Her magnificent fur and soulful eyes make it very hard to say no.",color:'White & apricot',emoji:'🌺',bg:'#fce4ec',accent:'#c9507c',status:'Pending',size:'Small'},
+  {id:6,name:'Moss',age:'4 years',breed:'Tabby',gender:'Male',personality:['Chill','Friendly','Easy-going'],description:'Moss is the kind of cat who gets along with everyone — dogs, kids, other cats. A low-maintenance companion with a big heart.',color:'Brown tabby',emoji:'🌱',bg:'#f1f8e9',accent:'#7da85a',status:'Available',size:'Medium'}
+];
+
+let currentPage='home';
+let currentFilter='All';
+let currentCat=null;
+
+function getUser(){try{const u=localStorage.getItem('pawfect_user');return u?JSON.parse(u):null}catch{return null}}
+function getUsers(){try{const u=localStorage.getItem('pawfect_users');return u?JSON.parse(u):[]}catch{return[]}}
+function saveUser(u){localStorage.setItem('pawfect_user',JSON.stringify(u))}
+function saveUsers(arr){localStorage.setItem('pawfect_users',JSON.stringify(arr))}
+
+function isFav(id){const u=getUser();return u&&u.favorites&&u.favorites.includes(id)}
+function toggleFav(id){
+  const u=getUser();if(!u)return;
+  const favs=u.favorites||[];
+  u.favorites=favs.includes(id)?favs.filter(x=>x!==id):[...favs,id];
+  saveUser(u);
+  const users=getUsers();const idx=users.findIndex(x=>x.email===u.email);
+  if(idx>-1){users[idx].favorites=u.favorites;saveUsers(users)}
+  renderPage();
+}
+
+function navigate(page,catId){
+  currentPage=page;
+  if(catId)currentCat=catId;
+  renderPage();
+  window.scrollTo(0,0);
+}
+
+function toggleDrawer(){
+  const d=document.getElementById('drawer');
+  const o=document.getElementById('overlay');
+  const b=document.getElementById('hamburger-btn');
+  const open=d.classList.toggle('open');
+  o.classList.toggle('show',open);
+  b.classList.toggle('open',open);
+  b.innerHTML=open?'✕':'☰';
+}
+
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>20);
+});
+
+function renderNav(){
+  const u=getUser();
+  const authNav=document.getElementById('auth-nav');
+  const drawerAuth=document.getElementById('drawer-auth');
+  const favLink=document.getElementById('fav-nav-link');
+  const drawerFav=document.getElementById('drawer-fav');
+
+  if(favLink)favLink.style.display=u?'':'none';
+  if(drawerFav)drawerFav.style.display=u?'flex':'none';
+
+  if(u){
+    authNav.innerHTML=`<div style="display:flex;align-items:center;gap:12px"><span style="font-size:13px;color:var(--tm)">Hi, ${u.name.split(' ')[0]} 🌸</span><button onclick="doLogout()" style="background:none;border:none;cursor:pointer;color:var(--tl);font-size:13px;font-family:var(--fb)">Sign out</button></div>`;
+    drawerAuth.innerHTML=`<div style="padding:16px;border-radius:var(--r2);background:#fff;border:1px solid var(--pk100);margin-bottom:8px"><div style="display:flex;align-items:center;gap:12px"><div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--pk200),var(--gn200));display:flex;align-items:center;justify-content:center;font-size:16px">${u.name[0].toUpperCase()}</div><div><div style="font-size:14px;font-weight:500;color:var(--td)">${u.name}</div><div style="font-size:12px;color:var(--tl)">${u.email}</div></div></div></div><button onclick="doLogout()" style="background:none;border:1.5px solid var(--pk100);border-radius:var(--r1);padding:12px 16px;cursor:pointer;color:var(--tm);font-size:14px;width:100%;text-align:left;font-family:var(--fb);display:flex;align-items:center;gap:8px;transition:all .2s">← Sign out</button>`;
+  } else {
+    authNav.innerHTML=`<button class="btn-p" style="padding:9px 22px;font-size:13px" onclick="navigate('login')">Sign In</button>`;
+    drawerAuth.innerHTML=`<div style="display:flex;flex-direction:column;gap:8px"><button class="btn-p" style="width:100%" onclick="navigate('login');toggleDrawer()">Sign In</button><button class="btn-s" style="width:100%" onclick="navigate('signup');toggleDrawer()">Create Account</button></div>`;
+  }
+}
+
+function doLogout(){
+  localStorage.removeItem('pawfect_user');
+  navigate('home');
+}
+
+function renderPage(){
+  renderNav();
+  const app=document.getElementById('app');
+  if(currentPage==='home') app.innerHTML=renderHome();
+  else if(currentPage==='adopt') app.innerHTML=renderAdopt();
+  else if(currentPage==='cat') app.innerHTML=renderCatDetail(currentCat);
+  else if(currentPage==='about') app.innerHTML=renderAbout();
+  else if(currentPage==='contact') app.innerHTML=renderContact();
+  else if(currentPage==='login') app.innerHTML=renderLogin();
+  else if(currentPage==='signup') app.innerHTML=renderSignup();
+  else if(currentPage==='favorites') app.innerHTML=renderFavorites();
+}
+
+function catCardHTML(cat){
+  const fav=isFav(cat.id);
+  const statusStyle=cat.status==='Available'?'background:var(--gn100);color:var(--gn500)':'background:var(--pk100);color:var(--pk400)';
+  return `<div class="cat-card" onclick="navigate('cat',${cat.id})">
+    <div class="card-img" style="background:linear-gradient(135deg,${cat.bg},${cat.bg}dd)">
+      <div style="position:absolute;bottom:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:${cat.accent}22"></div>
+      <span style="font-size:80px;position:relative;z-index:1;filter:drop-shadow(0 4px 12px rgba(0,0,0,.1))">${cat.emoji}</span>
+      <div class="status-badge" style="${statusStyle}">${cat.status}</div>
+      <button class="fav-btn" onclick="event.stopPropagation();toggleFav(${cat.id})" title="Save">${fav?'❤️':'🤍'}</button>
+    </div>
+    <div style="padding:20px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+        <h3 style="font-family:var(--fd);font-size:22px;font-weight:500;color:var(--td)">${cat.name}</h3>
+        <span style="font-size:12px;color:var(--tl);background:var(--cream2);padding:3px 10px;border-radius:20px">${cat.gender}</span>
+      </div>
+      <p style="font-size:13px;color:var(--tl);margin-bottom:12px">${cat.breed} · ${cat.age}</p>
+      <p style="font-size:13px;color:var(--tm);line-height:1.65;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:16px">${cat.description}</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">${cat.personality.map(t=>`<span class="tag" style="background:${cat.bg};color:${cat.accent}">${t}</span>`).join('')}</div>
+    </div>
+  </div>`;
+}
+
+function renderHome(){
+  const featured=CATS.slice(0,3);
+  return `<div style="padding-top:0">
+  <section style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 32px 80px;position:relative">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(255,214,231,.5) 0%,rgba(220,237,200,.3) 50%,transparent 100%);z-index:-1"></div>
+    <div class="hero-badge"><span>🐾</span><span>Chicago's most adorable adoption shelter</span></div>
+    <h1 style="font-family:var(--fd);font-size:clamp(52px,10vw,96px);font-weight:400;line-height:1.05;color:var(--td);max-width:800px;margin-bottom:12px;letter-spacing:-.02em">Find your<br><em style="color:var(--pk400);font-style:italic">purr-fect</em> match</h1>
+    <p style="font-size:17px;color:var(--tm);max-width:480px;line-height:1.7;margin-bottom:48px;font-weight:300">Every one of our cats has a story and a heart full of love. They're just waiting to find someone like you.</p>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
+      <button class="btn-p" style="padding:14px 36px;font-size:15px" onclick="navigate('adopt')">Meet our cats ✨</button>
+      <button class="btn-s" style="padding:14px 36px;font-size:15px" onclick="navigate('about')">Our story</button>
+    </div>
+    <div style="display:flex;gap:48px;margin-top:72px;flex-wrap:wrap;justify-content:center">
+      ${[['🐈','240+','Cats rehomed'],['🏠','8 yrs','In operation'],['💚','98%','Happy families']].map(([e,n,l])=>`<div class="stat"><div style="font-size:24px;margin-bottom:4px">${e}</div><div style="font-family:var(--fd);font-size:28px;font-weight:500;color:var(--td)">${n}</div><div style="font-size:13px;color:var(--tl)">${l}</div></div>`).join('')}
+    </div>
+  </section>
+  <section style="padding:80px 32px;max-width:1200px;margin:0 auto">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:16px">
+      <div>
+        <p style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:8px;font-weight:500">Available now</p>
+        <h2 style="font-family:var(--fd);font-size:44px;font-weight:400;color:var(--td);line-height:1.1">Waiting for you</h2>
+      </div>
+      <button class="btn-s" onclick="navigate('adopt')">See all cats →</button>
+    </div>
+    <div class="grid-3">${featured.map(catCardHTML).join('')}</div>
+  </section>
+  <section style="margin:0 32px 80px;border-radius:var(--r4);background:linear-gradient(135deg,var(--pk100) 0%,var(--gn100) 100%);padding:64px 48px;text-align:center;position:relative;overflow:hidden">
+    <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:#fff;opacity:.3"></div>
+    <div style="position:absolute;bottom:-30px;left:-30px;width:150px;height:150px;border-radius:50%;background:#fff;opacity:.2"></div>
+    <h2 style="font-family:var(--fd);font-size:44px;font-weight:400;margin-bottom:16px;color:var(--td)">Why adopt?</h2>
+    <p style="font-size:16px;color:var(--tm);max-width:500px;margin:0 auto 36px;line-height:1.7">When you adopt, you're not just gaining a companion — you're giving a second chance to a soul who truly deserves it.</p>
+    <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
+      ${['Save a life 🌟','Pre-vetted & healthy 💊','All ages welcome 🎀','Ongoing support 🤝'].map(i=>`<div style="background:#fff;padding:12px 24px;border-radius:40px;font-size:14px;font-weight:500;color:var(--tm);box-shadow:0 2px 12px rgba(0,0,0,.06)">${i}</div>`).join('')}
+    </div>
+  </section>
+  </div>`;
+}
+
+function renderAdopt(){
+  const filtered=CATS.filter(c=>{
+    if(currentFilter==='All')return true;
+    if(currentFilter==='Female')return c.gender==='Female';
+    if(currentFilter==='Male')return c.gender==='Male';
+    if(currentFilter==='Kitten')return c.age.includes('month');
+    if(currentFilter==='Adult')return c.age.includes('year');
+    return true;
+  });
+  const filters=['All','Female','Male','Kitten','Adult'];
+  return `<div style="max-width:1200px;margin:0 auto;padding:100px 32px 80px">
+    <div style="margin-bottom:48px">
+      <p style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:10px;font-weight:500">Adoption gallery</p>
+      <h1 style="font-family:var(--fd);font-size:clamp(40px,6vw,64px);font-weight:400;color:var(--td);margin-bottom:16px;line-height:1.1">Meet the cats 🐾</h1>
+      <p style="font-size:16px;color:var(--tm);max-width:480px;line-height:1.7">Each of these wonderful souls is looking for their forever home. Take your time, follow your heart.</p>
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:40px;flex-wrap:wrap;align-items:center">
+      ${filters.map(f=>`<button class="pill-filter${currentFilter===f?' active':''}" onclick="currentFilter='${f}';navigate('adopt')">${f}</button>`).join('')}
+      <span style="font-size:13px;color:var(--tl);margin-left:8px">${filtered.length} ${filtered.length===1?'kitty':'kitties'} found</span>
+    </div>
+    <div class="grid-3">${filtered.length?filtered.map(catCardHTML).join(''):'<div style="text-align:center;padding:80px 0;color:var(--tl);grid-column:1/-1"><div style="font-size:48px;margin-bottom:16px">🔍</div><p>No cats match this filter right now.</p></div>'}</div>
+  </div>`;
+}
+
+function renderCatDetail(id){
+  const cat=CATS.find(c=>c.id===id);
+  if(!cat)return`<div style="padding:120px 32px;text-align:center"><p>Cat not found!</p></div>`;
+  const fav=isFav(cat.id);
+  const u=getUser();
+  return `<div style="max-width:1000px;margin:0 auto;padding:100px 32px 80px">
+    <button onclick="navigate('adopt')" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;color:var(--tl);font-size:14px;margin-bottom:32px;font-family:var(--fb)">← Back</button>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start">
+      <div style="border-radius:var(--r4);background:linear-gradient(135deg,${cat.bg},${cat.bg}bb);height:420px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden">
+        <div style="position:absolute;bottom:-50px;right:-50px;width:200px;height:200px;border-radius:50%;background:${cat.accent}20"></div>
+        <span style="font-size:120px;filter:drop-shadow(0 8px 24px rgba(0,0,0,.1))">${cat.emoji}</span>
+        <div style="position:absolute;top:16px;left:16px;background:${cat.status==='Available'?'var(--gn100)':'var(--pk100)'};color:${cat.status==='Available'?'var(--gn500)':'var(--pk400)'};font-size:12px;font-weight:500;padding:5px 14px;border-radius:20px">${cat.status}</div>
+      </div>
+      <div>
+        <h1 style="font-family:var(--fd);font-size:56px;font-weight:400;color:var(--td);margin-bottom:4px">${cat.name}</h1>
+        <p style="font-size:15px;color:var(--tl);margin-bottom:24px">${cat.breed} · ${cat.age} · ${cat.gender} · ${cat.size}</p>
+        <p style="font-size:15px;color:var(--tm);line-height:1.75;margin-bottom:28px">${cat.description}</p>
+        <div style="margin-bottom:28px">
+          <p style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--tl);margin-bottom:10px">Personality</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">${cat.personality.map(t=>`<span style="background:${cat.bg};color:${cat.accent};font-size:13px;font-weight:500;padding:6px 14px;border-radius:20px">${t}</span>`).join('')}</div>
+        </div>
+        <div style="background:var(--cream2);border-radius:var(--r2);padding:20px;margin-bottom:32px">
+          ${[['Color',cat.color],['Size',cat.size],['Gender',cat.gender]].map(([k,v])=>`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(244,143,177,.1)"><span style="font-size:13px;color:var(--tl)">${k}</span><span style="font-size:13px;font-weight:500;color:var(--td)">${v}</span></div>`).join('')}
+        </div>
+        <div style="display:flex;gap:12px">
+          ${cat.status==='Available'?`<button class="btn-p" style="flex:1;padding:14px" onclick="navigate('contact')">Apply to adopt 🐾</button>`:`<button class="btn-s" style="flex:1;padding:14px" disabled>Currently pending</button>`}
+          ${u?`<button onclick="event.stopPropagation();toggleFav(${cat.id})" style="background:${fav?'var(--pk50)':'#fff'};border:1.5px solid ${fav?'var(--pk300)':'var(--pk100)'};border-radius:var(--r1);padding:14px 20px;cursor:pointer;display:flex;align-items:center;gap:8px;font-family:var(--fb);font-size:13px;color:var(--pk400);font-weight:500;transition:all .2s">${fav?'❤️ Saved':'🤍 Save'}</button>`:''}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderAbout(){
+  return `<div style="padding-top:100px;padding-bottom:80px">
+    <section style="max-width:800px;margin:0 auto;padding:40px 32px 80px;text-align:center">
+      <p style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:16px;font-weight:500">Our story</p>
+      <h1 style="font-family:var(--fd);font-size:clamp(44px,7vw,72px);font-weight:400;line-height:1.1;color:var(--td);margin-bottom:24px">Born from love<br><em style="color:var(--pk400);font-style:italic">for cats</em></h1>
+      <p style="font-size:17px;color:var(--tm);line-height:1.8;font-weight:300">Pawfect Adoptions started in 2016 when our founder Maya rescued her first stray from a Chicago alley. That cat — named Rosebud — changed her life so profoundly that she built an entire shelter around the idea that every cat deserves to be loved exactly as they are.</p>
+    </section>
+    <section style="background:linear-gradient(135deg,var(--pk50),var(--gn50));padding:80px 32px">
+      <div style="max-width:1000px;margin:0 auto">
+        <h2 style="font-family:var(--fd);font-size:44px;font-weight:400;text-align:center;margin-bottom:48px;color:var(--td)">What we believe</h2>
+        <div class="grid-4">
+          ${[['💗','Love is the answer',"Every behavioral 'problem' is just a cat who hasn't found the right human yet."],['🌿','No cat left behind','We foster the shy ones, the seniors, the special needs. Everyone deserves a chance.'],['🏠','Forever means forever','We stay in touch with our adopters. A Pawfect adoption is a relationship, not a transaction.'],['✨','Joy in the small things','A purr. A slow blink. A biscuit-making session at 3am. This is what life is about.']].map(([e,t,b])=>`<div class="value-card"><div style="font-size:32px;margin-bottom:14px">${e}</div><h3 style="font-family:var(--fd);font-size:22px;font-weight:500;color:var(--td);margin-bottom:10px">${t}</h3><p style="font-size:14px;color:var(--tm);line-height:1.7">${b}</p></div>`).join('')}
+        </div>
+      </div>
+    </section>
+    <section style="max-width:900px;margin:0 auto;padding:80px 32px">
+      <h2 style="font-family:var(--fd);font-size:44px;font-weight:400;text-align:center;margin-bottom:48px;color:var(--td)">Our team</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px">
+        ${[['🌸','Maya Chen','Founder & Cat Whisperer'],['🍃','Lily Park','Head of Adoptions'],['💚','Jade Rivera','Veterinary Liaison']].map(([e,n,r])=>`<div style="text-align:center;padding:32px 24px;background:#fff;border-radius:var(--r4);border:1px solid var(--pk100);box-shadow:var(--shadow)"><div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--pk200),var(--gn200));margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:32px">${e}</div><h3 style="font-family:var(--fd);font-size:22px;font-weight:500;color:var(--td);margin-bottom:6px">${n}</h3><p style="font-size:13px;color:var(--tl)">${r}</p></div>`).join('')}
+      </div>
+    </section>
+  </div>`;
+}
+
+function renderContact(){
+  return `<div style="padding-top:100px;padding-bottom:80px">
+    <div style="max-width:1000px;margin:0 auto;padding:40px 32px">
+      <div style="text-align:center;margin-bottom:64px">
+        <p style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:12px;font-weight:500">Say hello</p>
+        <h1 style="font-family:var(--fd);font-size:clamp(40px,7vw,68px);font-weight:400;color:var(--td);margin-bottom:16px;line-height:1.1">We'd love to<br><em style="color:var(--pk400);font-style:italic">hear from you</em></h1>
+        <p style="font-size:16px;color:var(--tm);max-width:400px;margin:0 auto;line-height:1.7">Adoption questions, visit scheduling, or just want to say hi — our inbox is always open.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:48px;align-items:start">
+        <div>
+          <h2 style="font-family:var(--fd);font-size:28px;font-weight:500;color:var(--td);margin-bottom:24px">Visit us</h2>
+          ${[['📍','Address','420 N. Magnolia Ave<br>Chicago, IL 60622'],['📞','Phone','(312) 555-0148'],['✉️','Email','hello@pawfect.co'],['🕐','Hours','Tue–Sun · 11am–6pm']].map(([e,l,v])=>`<div class="contact-info-box"><div class="contact-icon">${e}</div><div><p style="font-size:12px;color:var(--tl);letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px">${l}</p><p style="font-size:14px;color:var(--td);line-height:1.5">${v}</p></div></div>`).join('')}
+        </div>
+        <div style="background:#fff;border-radius:var(--r4);padding:40px;border:1px solid var(--pk100);box-shadow:var(--shadow)">
+          <h3 style="font-family:var(--fd);font-size:26px;font-weight:500;color:var(--td);margin-bottom:24px">Send a message</h3>
+          <form onsubmit="submitContact(event)" style="display:flex;flex-direction:column;gap:20px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div><label>Your name</label><input name="name" placeholder="Name" required></div>
+              <div><label>Email</label><input name="email" type="email" placeholder="email@example.com" required></div>
+            </div>
+            <div><label>Subject</label><select name="subject"><option>Adoption inquiry</option><option>Schedule a visit</option><option>Foster a cat</option><option>Volunteer</option><option>Other</option></select></div>
+            <div><label>Message</label><textarea name="message" rows="5" placeholder="Tell us about yourself and which cat caught your eye..." required style="resize:vertical"></textarea></div>
+            <div id="contact-msg"></div>
+            <button type="submit" class="btn-p" style="width:100%;padding:14px;font-size:15px">Send message 💌</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function submitContact(e){
+  e.preventDefault();
+  document.getElementById('contact-msg').innerHTML=`<div class="success-box">🌸 Message sent! We'll get back to you within 24 hours.</div>`;
+  e.target.reset();
+}
+
+function renderLogin(){
+  return `<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px;background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(255,214,231,.4) 0%,rgba(220,237,200,.2) 60%,transparent 100%)">
+    <div class="auth-card" style="border:1px solid var(--pk100)">
+      <div style="position:absolute;top:-40px;right:-40px;width:150px;height:150px;border-radius:50%;background:var(--pk100);opacity:.5;z-index:0"></div>
+      <div style="position:absolute;bottom:-30px;left:-30px;width:100px;height:100px;border-radius:50%;background:var(--gn100);opacity:.5;z-index:0"></div>
+      <div style="position:relative;z-index:1">
+        <div style="text-align:center;margin-bottom:36px">
+          <div style="font-size:40px;margin-bottom:12px">🐾</div>
+          <h1 style="font-family:var(--fd);font-size:36px;font-weight:400;color:var(--td);margin-bottom:8px">Welcome back</h1>
+          <p style="font-size:14px;color:var(--tl)">Sign in to your Pawfect account</p>
+        </div>
+        <form onsubmit="doLogin(event)" style="display:flex;flex-direction:column;gap:18px">
+          <div><label>Email</label><input id="login-email" type="email" placeholder="you@email.com" required></div>
+          <div><label>Password</label><input id="login-pw" type="password" placeholder="••••••••" required></div>
+          <div id="login-err"></div>
+          <button type="submit" class="btn-p" style="width:100%;padding:14px;font-size:15px">Sign in 🌸</button>
+        </form>
+        <p style="text-align:center;font-size:14px;color:var(--tl);margin-top:24px">New here? <button onclick="navigate('signup')" style="background:none;border:none;cursor:pointer;color:var(--pk400);font-size:14px;font-weight:500;font-family:var(--fb)">Create an account</button></p>
+      </div>
+    </div>
+  </div>`;
+}
+
+function doLogin(e){
+  e.preventDefault();
+  const email=document.getElementById('login-email').value;
+  const pw=document.getElementById('login-pw').value;
+  const users=getUsers();
+  const found=users.find(u=>u.email===email&&u.password===pw);
+  if(!found){document.getElementById('login-err').innerHTML=`<div class="error-box">Invalid email or password</div>`;return}
+  saveUser({email:found.email,name:found.name,favorites:found.favorites||[]});
+  navigate('home');
+}
+
+function renderSignup(){
+  return `<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px;background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(220,237,200,.4) 0%,rgba(255,214,231,.2) 60%,transparent 100%)">
+    <div class="auth-card" style="border:1px solid var(--gn100)">
+      <div style="position:absolute;top:-40px;left:-40px;width:150px;height:150px;border-radius:50%;background:var(--gn100);opacity:.5;z-index:0"></div>
+      <div style="position:absolute;bottom:-30px;right:-30px;width:100px;height:100px;border-radius:50%;background:var(--pk100);opacity:.5;z-index:0"></div>
+      <div style="position:relative;z-index:1">
+        <div style="text-align:center;margin-bottom:36px">
+          <div style="font-size:40px;margin-bottom:12px">🌿</div>
+          <h1 style="font-family:var(--fd);font-size:36px;font-weight:400;color:var(--td);margin-bottom:8px">Join us</h1>
+          <p style="font-size:14px;color:var(--tl)">Create your Pawfect account</p>
+        </div>
+        <form onsubmit="doSignup(event)" style="display:flex;flex-direction:column;gap:18px">
+          <div><label>Full name</label><input id="su-name" placeholder="Your name" required></div>
+          <div><label>Email</label><input id="su-email" type="email" placeholder="you@email.com" required></div>
+          <div><label>Password</label><input id="su-pw" type="password" placeholder="At least 6 characters" required></div>
+          <div id="signup-err"></div>
+          <button type="submit" class="btn-g" style="width:100%;padding:14px;font-size:15px">Create account 🌱</button>
+        </form>
+        <p style="text-align:center;font-size:14px;color:var(--tl);margin-top:24px">Already have an account? <button onclick="navigate('login')" style="background:none;border:none;cursor:pointer;color:var(--pk400);font-size:14px;font-weight:500;font-family:var(--fb)">Sign in</button></p>
+      </div>
+    </div>
+  </div>`;
+}
+
+function doSignup(e){
+  e.preventDefault();
+  const name=document.getElementById('su-name').value;
+  const email=document.getElementById('su-email').value;
+  const pw=document.getElementById('su-pw').value;
+  if(pw.length<6){document.getElementById('signup-err').innerHTML=`<div class="error-box">Password must be at least 6 characters</div>`;return}
+  const users=getUsers();
+  if(users.find(u=>u.email===email)){document.getElementById('signup-err').innerHTML=`<div class="error-box">Email already registered</div>`;return}
+  users.push({name,email,password:pw,favorites:[]});
+  saveUsers(users);
+  saveUser({name,email,favorites:[]});
+  navigate('home');
+}
+
+function renderFavorites(){
+  const u=getUser();
+  if(!u)return`<div style="padding:120px 32px;text-align:center"><div style="font-size:48px;margin-bottom:16px">💗</div><h2 style="font-family:var(--fd);font-size:32px;color:var(--td);margin-bottom:12px">Sign in to see favorites</h2><button class="btn-p" style="margin-top:8px" onclick="navigate('login')">Sign in</button></div>`;
+  const favCats=CATS.filter(c=>u.favorites&&u.favorites.includes(c.id));
+  return `<div style="max-width:1200px;margin:0 auto;padding:100px 32px 80px">
+    <div style="margin-bottom:48px">
+      <p style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--pk400);margin-bottom:10px;font-weight:500">Your collection</p>
+      <h1 style="font-family:var(--fd);font-size:56px;font-weight:400;color:var(--td);line-height:1.1">Saved cats 💗</h1>
+    </div>
+    ${favCats.length?`<div class="grid-3">${favCats.map(catCardHTML).join('')}</div>`:`<div style="text-align:center;padding:80px 0"><div style="font-size:56px;margin-bottom:20px">🐱</div><h2 style="font-family:var(--fd);font-size:28px;color:var(--td);margin-bottom:12px">No favorites yet</h2><p style="font-size:15px;color:var(--tl);margin-bottom:28px">Browse our cats and tap the heart to save them here.</p><button class="btn-p" onclick="navigate('adopt')">Meet the cats</button></div>`}
+  </div>`;
+}
+
+renderPage();
+</script>
+</body>
+</html>
